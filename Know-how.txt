@@ -1,0 +1,5 @@
+■BackPropagationの正しさ検証
+すべてのW,bを一つのベクトルとして統合し、各要素に±εを加えFowardPropagationを行い検証用のコスト関数Jを算出する
+そして検証微分値 ((J(Θ+)-J(Θ-))/((Θ+)-(Θ-))を求める。←(W1,b1,W2,･･･)の形のベクトル(n,1)：gradapproxと呼ぶことにする
+通常のBackPropagationの結果の全dW,db(ベクトル(n,1)：こっちはgradと呼ぶことにする)との二乗誤差が一定以下であればBackPropagationの実装は正しいとみなせる。
+一定以上とはnp.linalg.norm(grad-gradapprox)/(np.linalg.norm(grad)+np.linalg.norm(gradapprox))が1e+07以下
