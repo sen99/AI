@@ -1,5 +1,87 @@
+●Improving Deep Neural Networks: Hyperparameter tuning, Regularization and Optimization
+■バイアス、バリアンス
+
+■L2
+
+■ドロップアウト
+
+■勾配消失
+
+■入力の正規化について
+平均と分散の両方を行う
+テストデータに対してはトレーニングデータで行った変換と同じ変換をする
+
+
+
 ■BackPropagationの正しさ検証
 すべてのW,bを一つのベクトルとして統合し、各要素に±εを加えFowardPropagationを行い検証用のコスト関数Jを算出する
 そして検証微分値 ((J(Θ+)-J(Θ-))/((Θ+)-(Θ-))を求める。←(W1,b1,W2,･･･)の形のベクトル(n,1)：gradapproxと呼ぶことにする
 通常のBackPropagationの結果の全dW,db(ベクトル(n,1)：こっちはgradと呼ぶことにする)との二乗誤差が一定以下であればBackPropagationの実装は正しいとみなせる。
 一定以上とはnp.linalg.norm(grad-gradapprox)/(np.linalg.norm(grad)+np.linalg.norm(gradapprox))が1e+07以下
+
+week2
+
+■指数加重移動平均
+ハイパーパラメータ　β(Momentum)を調整することで収束点への勢いをつける手法
+
+■RMSprop(root mean square prop)
+勾配の2乗の指数移動平均を取る手法。より振動を抑えるよう考慮されている
+
+■Adam
+最適化アルゴリズム。式を見たほうが早い
+
+■Learning rate decay
+収束に向かうにつれ、αを小さくする手法。これにより収束付近での発散を防ぐ
+ただしこれの優先度は低い
+
+
+week3
+
+■ハイパーパラメータの追い込みについて
+等間隔の格子状に設定するのは間違い。ランダムで取るべき
+なぜなら等間隔の場合は寄与度の大きいパラメータのパターン分しか見れていない。
+ランダムで取った後特定の領域で成績が良ければその中を更に密にランダム探索する。
+ランダムとはいえリニアスケールではなくlogスケールでパラメータ設定をする。0.0001⇔1=(10 ** -4*np.random.rand())
+GPU/CPUに余裕がない場合は一つの学習が人間が見ながらハイパーパラメータを調整するBabysitting one modelになるが
+余裕がある場合は各ハイパーパラメータで学習を同時に走らせるTraining many models in parallelが採用される
+
+■Batch normalization
+Zに対しての平均、分散の正規化を行う手法
+層が増えるほど共変量シフト(Covariate shift)が大きくなってしまう（層の入出力分布がイテレータ毎に変化する）ことを抑えるため
+
+Z[2]層以前の層のパラメータを更新するとこの分布は変わってしまう。Batch normを適用すれば同じ平均ゼロと分散1のまま保てる。
+これにより後の層の学習が安定する。今まで直接影響を及ぼしていたのが少し層毎に独立した状態になる。
+実際には、正規化としてバッチ標準に頼らないでください。隠されたユニットのアクティベーションを正規化し、学習をスピードアップする方法として使用します。そして、正則化はほとんど意図しない副作用だと思います。
+
+テスト時にはTrainのミニバッジ全体の指数加重平均を使用する
+
+■Softmax Regression
+元々Hard max[1, 0, 0 ,0]のような1,0のベクトルから由来した
+
+
+
+
+
+==TensorFlow API===============================================================================
+
+X, Y = create_placeholders(n_x, n_y)
+x = tf.placeholder(tf.float32, name = "x")
+
+sess = tf.Session()
+sess.run()
+sess.close()
+
+sigmoid = tf.sigmoid(x, name = "sigmoid")
+
+tf.math.reduce_mean	テンソルの次元全体の要素の平均を計算します。
+		例　	x = tf.constant([[1., 1.], [2., 2.]])
+			tf.reduce_mean(x)  # 1.5
+			tf.reduce_mean(x, 0)  # [1.5, 1.5]
+
+optimizer = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(cost)
+
+init = tf.global_variables_initializer()
+
+minibatches = random_mini_batches(X_train, Y_train, minibatch_size, seed)
+
+one_hot_matrix = tf.one_hot(labels , depth=C, axis = 0)
