@@ -22,9 +22,9 @@
 ### Detecter output
 #### Detecter loss & accuracy
 #### Loss(Train_data): 0.2997, Loss(Test_data): 0.7255
-![Detecter_loss](https://user-images.githubusercontent.com/59045457/91306878-2789e980-e7e8-11ea-861f-45c31df86e43.png)
+![Detecter_loss](https://user-images.githubusercontent.com/59045457/91307499-fe1d8d80-e7e8-11ea-8f6e-767228119757.png)
 #### Accuracy(Train_data): 0.8950, Accuracy(Test_data): 0.8095
-![Detecter_acc](https://user-images.githubusercontent.com/59045457/91306884-2953ad00-e7e8-11ea-94da-466fd9d92530.png)
+![Detecter_acc](https://user-images.githubusercontent.com/59045457/91307502-feb62400-e7e8-11ea-914e-3f1bb58898a5.png)
 #### Accuracy of each class
 ![accuracy of each class](https://user-images.githubusercontent.com/59045457/91306890-2c4e9d80-e7e8-11ea-9a3e-7907b94b7c6b.png)
 
