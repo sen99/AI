@@ -49,8 +49,7 @@
 ### If you do not add it, overfitting will occur at an early stage
 
 ## About Model
-### I tried 3models, Dence, SimpleCNN and Darknet
-### The score was Darknet> SimpleCNN> Dence
-### The score of Dence and Simple CNN improved with the addition of the Drop layer, but it did not reach Darknet.
+### I tried 4models, Dence, SimpleCNN , Darknet and arranged Darknet
+### The score was arranged Darknet > Darknet> SimpleCNN > Dence
 ### I think that if use a larger model, the accuracy will increase, so I will do it in the future.
 ### But it may not reach individual learning score.
